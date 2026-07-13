@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mevlana Pide ve Lahmacun Salonu - Tatvan/Bitlis. En lezzetli pide, lahmacun ve daha fazlası. Ev ve iş yerlerine sipariş verilir.">
+    <meta name="keywords" content="mevlana pide, lahmacun, tatvan, bitlis, pide salonu, sipariş, kuşbaşılı pide, kıymalı pide, tatvan pide, tatvan lahmacun">
+    <title>Mevlana Pide ve Lahmacun Salonu | Tatvan Bitlis Pide & Lahmacun</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --gold: #D4A017;
+            --gold-light: #F4D03F;
+            --gold-dark: #B8860B;
+            --gold-gradient: linear-gradient(135deg, #D4A017, #F4D03F, #B8860B);
+            --black: #0A0A0A;
+            --black-light: #1A1A1A;
+            --black-card: #111111;
+            --gray: #888888;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body { font-family: var(--font-body); background-color: var(--black); color: var(--gold); overflow-x: hidden; line-height: 1.6; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+        /* PRELOADER */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--black); display: flex; justify-content: center;
+            align-items: center; z-index: 99999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #preloader.hidden { opacity: 0; visibility: hidden; }
+        .loader { text-align: center; }
+        .loader-icon { font-size: 60px; color: var(--gold); animation: pulse 1.5s ease-in-out infinite; }
+        .loader-text { font-family: var(--font-heading); font-size: 24px; color: var(--gold); margin-top: 20px; letter-spacing: 3px; }
+        @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.2);opacity:0.7} }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+            padding: 15px 0; transition: all 0.4s ease;
+            background: rgba(10,10,10,0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212,160,23,0.2);
+        }
+        .navbar.scrolled { padding: 10px 0; box-shadow: 0 5px 30px rgba(212,160,23,0.1); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-logo-icon { width: 50px; height: 50px; background: var(--gold-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--black); font-weight: 900; font-family: var(--font-heading); }
+        .nav-logo-text { font-family: var(--font-heading); font-size: 20px; font-weight: 700; color: var(--gold); line-height: 1.2; }
+        .nav-logo-text span { display: block; font-size: 11px; font-weight: 400; color: var(--gold-dark); letter-spacing: 2px; text-transform: uppercase; }
+        .nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--gold); font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; position: relative; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--gold-gradient); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--gold-light); }
+        .nav-order-btn { background: var(--gold-gradient); color: var(--black) !important; padding: 10px 25px; border-radius: 30px; font-weight: 700 !important; }
+        .nav-order-btn::after { display: none !important; }
+        .nav-order-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(212,160,23,0.4); color: var(--black) !important; }
+
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 6px; z-index: 10001; }
+        .hamburger span { width: 30px; height: 2px; background: var(--gold); transition: all 0.3s ease; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px,6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px,-6px); }
+
+        .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,10,0.98); z-index: 10000; justify-content: center; align-items: center; flex-direction: column; gap: 30px; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu a { text-decoration: none; color: var(--gold); font-size: 22px; font-family: var(--font-heading); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s ease; }
+        .mobile-menu a:hover { color: var(--gold-light); }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; background: radial-gradient(ellipse at center, rgba(212,160,23,0.05) 0%, var(--black) 70%); overflow: hidden; }
+        .hero-bg-pattern { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle at 20% 80%, rgba(212,160,23,0.03) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212,160,23,0.03) 0%, transparent 50%); z-index: 1; }
+        .hero-decoration { position: absolute; border: 1px solid rgba(212,160,23,0.1); border-radius: 50%; top: 50%; left: 50%; animation: rotateDecor 20s linear infinite; }
+        .hero-decoration:nth-child(2) { width: 400px; height: 400px; }
+        .hero-decoration:nth-child(3) { width: 550px; height: 550px; animation-direction: reverse; animation-duration: 30s; }
+        .hero-decoration:nth-child(4) { width: 700px; height: 700px; animation-duration: 40s; }
+        @keyframes rotateDecor { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+        .hero-content { text-align: center; z-index: 10; padding: 0 20px; }
+        .hero-badge { display: inline-block; padding: 8px 25px; border: 1px solid var(--gold-dark); border-radius: 30px; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 30px; animation: fadeInUp 1s ease 0.3s both; }
+        .hero-title { font-family: var(--font-heading); font-size: 72px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; animation: fadeInUp 1s ease 0.5s both; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-subtitle { font-family: var(--font-heading); font-size: 28px; font-weight: 400; color: var(--gold-dark); margin-bottom: 20px; animation: fadeInUp 1s ease 0.7s both; }
+        .hero-tagline { font-size: 16px; color: var(--gray); max-width: 500px; margin: 0 auto 40px; animation: fadeInUp 1s ease 0.9s both; line-height: 1.8; }
+        .hero-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; animation: fadeInUp 1s ease 1.1s both; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 15px 35px; background: var(--gold-gradient); color: var(--black); text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; border: none; cursor: pointer; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212,160,23,0.3); }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 10px; padding: 15px 35px; background: transparent; color: var(--gold); text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; border: 2px solid var(--gold-dark); }
+        .btn-secondary:hover { background: rgba(212,160,23,0.1); border-color: var(--gold); transform: translateY(-3px); }
+        .hero-scroll { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 10; text-align: center; animation: fadeInUp 1s ease 1.5s both; }
+        .hero-scroll a { color: var(--gold-dark); text-decoration: none; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; }
+        .hero-scroll i { display: block; font-size: 20px; margin-top: 10px; animation: bounce 2s infinite; }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes bounce { 0%,20%,50%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-10px)} 60%{transform:translateY(-5px)} }
+
+        /* DELIVERY BANNER */
+        .delivery-banner { background: linear-gradient(135deg,rgba(212,160,23,0.15),rgba(184,134,11,0.1)); border-top: 1px solid rgba(212,160,23,0.3); border-bottom: 1px solid rgba(212,160,23,0.3); padding: 25px 20px; text-align: center; }
+        .delivery-banner-content { max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .delivery-banner i { font-size: 30px; color: var(--gold); }
+        .delivery-banner-text h3 { font-family: var(--font-heading); font-size: 22px; color: var(--gold); margin-bottom: 5px; }
+        .delivery-banner-text p { font-size: 14px; color: var(--gold-dark); }
+
+        /* SECTIONS */
+        .section { padding: 100px 20px; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-badge { display: inline-block; padding: 6px 20px; border: 1px solid rgba(212,160,23,0.3); border-radius: 20px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 15px; }
+        .section-title { font-family: var(--font-heading); font-size: 48px; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 15px; }
+        .section-divider { width: 80px; height: 3px; background: var(--gold-gradient); margin: 0 auto; border-radius: 10px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* ABOUT */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-image-wrapper { position: relative; }
+        .about-image-box { width: 100%; height: 450px; background: linear-gradient(135deg,var(--black-card),var(--black-light)); border-radius: 20px; border: 1px solid rgba(212,160,23,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .about-image-box::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg,transparent,rgba(212,160,23,0.1),transparent); animation: rotateDecor 10s linear infinite; }
+        .about-image-icon { font-size: 120px; color: var(--gold); opacity: 0.3; z-index: 1; }
+        .about-experience-badge { position: absolute; bottom: -20px; right: -20px; width: 140px; height: 140px; background: var(--gold-gradient); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(212,160,23,0.3); }
+        .about-experience-badge .number { font-family: var(--font-heading); font-size: 40px; font-weight: 900; color: var(--black); line-height: 1; }
+        .about-experience-badge .text { font-size: 11px; font-weight: 700; color: var(--black); text-transform: uppercase; letter-spacing: 1px; }
+        .about-text h3 { font-family: var(--font-heading); font-size: 32px; color: var(--gold); margin-bottom: 20px; }
+        .about-text p { color: var(--gray); font-size: 15px; line-height: 1.8; margin-bottom: 15px; }
+        .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+        .about-feature { display: flex; align-items: center; gap: 10px; padding: 12px 15px; background: var(--black-card); border-radius: 10px; border: 1px solid rgba(212,160,23,0.1); }
+        .about-feature i { color: var(--gold); font-size: 18px; }
+        .about-feature span { font-size: 13px; color: var(--gold-dark); font-weight: 500; }
+
+        /* MENU */
+        #menu { background: linear-gradient(180deg,var(--black) 0%,var(--black-light) 50%,var(--black) 100%); }
+        .menu-category { margin-bottom: 60px; }
+        .menu-category:last-child { margin-bottom: 0; }
+        .menu-category-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid rgba(212,160,23,0.2); }
+        .menu-category-icon { width: 60px; height: 60px; background: rgba(212,160,23,0.1); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--gold); border: 1px solid rgba(212,160,23,0.2); }
+        .menu-category-title { font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--gold); }
+        .menu-category-subtitle { font-size: 13px; color: var(--gold-dark); margin-top: 2px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; }
+        .menu-item { background: var(--black-card); border: 1px solid rgba(212,160,23,0.15); border-radius: 15px; padding: 25px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .menu-item::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--gold-gradient); transform: scaleX(0); transition: transform 0.3s ease; }
+        .menu-item:hover::before { transform: scaleX(1); }
+        .menu-item:hover { transform: translateY(-5px); border-color: rgba(212,160,23,0.4); box-shadow: 0 10px 30px rgba(212,160,23,0.1); }
+        .menu-item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .menu-item-name { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--gold); }
+        .menu-item-icon { font-size: 24px; opacity: 0.5; }
+        .menu-item-desc { font-size: 13px; color: var(--gray); line-height: 1.6; }
+        .menu-item-tag { display: inline-block; margin-top: 10px; padding: 4px 12px; background: rgba(212,160,23,0.15); border-radius: 20px; font-size: 11px; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .drinks-subcategory { margin-bottom: 25px; }
+        .drinks-subcategory-title { font-family: var(--font-heading); font-size: 18px; color: var(--gold-dark); margin-bottom: 15px; padding-left: 15px; border-left: 3px solid var(--gold); }
+
+        /* GALERİ */
+        #gallery { background: linear-gradient(180deg,var(--black) 0%,var(--black-light) 50%,var(--black) 100%); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+        .gallery-item { position: relative; border-radius: 15px; overflow: hidden; border: 1px solid rgba(212,160,23,0.15); cursor: pointer; aspect-ratio: 1/1; background: var(--black-card); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease,filter 0.4s ease; display: block; }
+        .gallery-item:hover img { transform: scale(1.1); filter: brightness(1.1); }
+        .gallery-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg,transparent 40%,rgba(10,10,10,0.85) 100%); opacity: 0; transition: opacity 0.4s ease; display: flex; align-items: flex-end; justify-content: center; padding: 20px; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay-content { text-align: center; transform: translateY(20px); transition: transform 0.4s ease; }
+        .gallery-item:hover .gallery-overlay-content { transform: translateY(0); }
+        .gallery-overlay-content i { font-size: 28px; color: var(--gold); margin-bottom: 8px; display: block; }
+        .gallery-overlay-content span { font-family: var(--font-heading); font-size: 14px; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+        .gallery-item:nth-child(7) { grid-column: span 2; aspect-ratio: 2/1; }
+        .gallery-item:nth-child(10) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+        .gallery-item:nth-child(15) { grid-column: span 2; aspect-ratio: 2/1; }
+
+        /* LIGHTBOX */
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.4s ease; }
+        .lightbox.active { display: flex; opacity: 1; }
+        .lightbox-img { max-width: 90%; max-height: 85vh; border-radius: 15px; box-shadow: 0 20px 60px rgba(212,160,23,0.2); border: 2px solid rgba(212,160,23,0.3); object-fit: contain; animation: lightboxZoom 0.4s ease; }
+        @keyframes lightboxZoom { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+        .lightbox-close { position: absolute; top: 25px; right: 30px; font-size: 35px; color: var(--gold); cursor: pointer; background: rgba(10,10,10,0.7); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212,160,23,0.3); transition: all 0.3s ease; z-index: 10; }
+        .lightbox-close:hover { background: var(--gold); color: var(--black); }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 30px; color: var(--gold); cursor: pointer; background: rgba(10,10,10,0.7); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212,160,23,0.3); transition: all 0.3s ease; z-index: 10; }
+        .lightbox-nav:hover { background: var(--gold); color: var(--black); }
+        .lightbox-prev { left: 25px; }
+        .lightbox-next { right: 25px; }
+        .lightbox-counter { position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); color: var(--gold); font-family: var(--font-heading); font-size: 16px; letter-spacing: 3px; background: rgba(10,10,10,0.7); padding: 8px 25px; border-radius: 30px; border: 1px solid rgba(212,160,23,0.2); }
+
+        /* HOURS */
+        .hours-section { background: linear-gradient(135deg,rgba(212,160,23,0.08),rgba(184,134,11,0.04)); border-radius: 20px; padding: 60px 40px; max-width: 800px; margin: 0 auto; border: 1px solid rgba(212,160,23,0.2); text-align: center; }
+        .hours-icon { font-size: 50px; color: var(--gold); margin-bottom: 20px; }
+        .hours-title { font-family: var(--font-heading); font-size: 36px; color: var(--gold); margin-bottom: 30px; }
+        .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 500px; margin: 0 auto 30px; }
+        .hours-day { padding: 15px 20px; background: var(--black-card); border-radius: 10px; border: 1px solid rgba(212,160,23,0.1); }
+        .hours-day .day { font-size: 13px; color: var(--gray); margin-bottom: 5px; }
+        .hours-day .time { font-family: var(--font-heading); font-size: 22px; color: var(--gold); font-weight: 700; }
+        .hours-status { display: inline-flex; align-items: center; gap: 8px; padding: 10px 25px; border-radius: 30px; font-size: 14px; font-weight: 600; }
+        .hours-status.open { background: rgba(46,204,113,0.15); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+        .hours-status.closed { background: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
+        .hours-status .dot { width: 10px; height: 10px; border-radius: 50%; animation: blink 1.5s infinite; }
+        .hours-status.open .dot { background: #2ecc71; }
+        .hours-status.closed .dot { background: #e74c3c; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        /* CONTACT */
+        #contact { background: linear-gradient(180deg,var(--black) 0%,var(--black-light) 100%); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .contact-info { display: flex; flex-direction: column; gap: 20px; }
+        .contact-card { display: flex; align-items: flex-start; gap: 18px; padding: 22px; background: var(--black-card); border-radius: 15px; border: 1px solid rgba(212,160,23,0.15); transition: all 0.3s ease; }
+        .contact-card:hover { border-color: rgba(212,160,23,0.4); transform: translateY(-3px); }
+        .contact-card-icon { width: 55px; height: 55px; min-width: 55px; background: rgba(212,160,23,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--gold); border: 1px solid rgba(212,160,23,0.2); }
+        .contact-card-content h4 { font-family: var(--font-heading); font-size: 17px; color: var(--gold); margin-bottom: 6px; }
+        .contact-card-content p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+        .contact-card-content a { color: var(--gold-dark); text-decoration: none; transition: color 0.3s ease; }
+        .contact-card-content a:hover { color: var(--gold-light); }
+
+        /* ===== TELEFON SATIRLARI ===== */
+        .phones-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .phone-card {
+            background: var(--black-card);
+            border: 1px solid rgba(212,160,23,0.15);
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .phone-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--gold-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .phone-card:hover::before { transform: scaleX(1); }
+        .phone-card:hover { border-color: rgba(212,160,23,0.4); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(212,160,23,0.1); }
+        .phone-card-icon {
+            width: 55px; height: 55px;
+            background: rgba(212,160,23,0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: var(--gold);
+            margin: 0 auto 12px;
+            border: 1px solid rgba(212,160,23,0.2);
+        }
+        .phone-card-role {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .phone-card-name {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .phone-card-number {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 15px;
+            background: rgba(212,160,23,0.08);
+            border-radius: 25px;
+            border: 1px solid rgba(212,160,23,0.15);
+            text-decoration: none;
+            color: var(--gold);
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .phone-card-number:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .contact-map { border-radius: 15px; overflow: hidden; border: 1px solid rgba(212,160,23,0.2); height: 100%; min-height: 400px; }
+        .contact-map iframe { width: 100%; height: 100%; border: none; filter: grayscale(80%) contrast(1.1) brightness(0.8); transition: filter 0.3s ease; }
+        .contact-map:hover iframe { filter: grayscale(30%) contrast(1.1) brightness(0.9); }
+
+        .contact-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .action-btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: 600; transition: all 0.3s ease; border: 1px solid; }
+        .action-btn.call  { background: rgba(46,204,113,0.1);  color: #2ecc71; border-color: rgba(46,204,113,0.3); }
+        .action-btn.call:hover  { background: rgba(46,204,113,0.2); }
+        .action-btn.call2 { background: rgba(52,152,219,0.1);  color: #5dade2; border-color: rgba(52,152,219,0.3); }
+        .action-btn.call2:hover { background: rgba(52,152,219,0.2); }
+        .action-btn.call3 { background: rgba(155,89,182,0.1);  color: #bb8fce; border-color: rgba(155,89,182,0.3); }
+        .action-btn.call3:hover { background: rgba(155,89,182,0.2); }
+        .action-btn.instagram { background: rgba(225,48,108,0.1); color: #E1306C; border-color: rgba(225,48,108,0.3); }
+        .action-btn.instagram:hover { background: rgba(225,48,108,0.2); }
+        .action-btn.directions { background: rgba(52,152,219,0.1); color: #3498db; border-color: rgba(52,152,219,0.3); }
+        .action-btn.directions:hover { background: rgba(52,152,219,0.2); }
+
+        /* FOOTER */
+        .footer { background: var(--black-card); border-top: 1px solid rgba(212,160,23,0.2); padding: 60px 20px 30px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-brand .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .footer-logo-circle { width: 45px; height: 45px; background: var(--gold-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--black); font-weight: 900; font-family: var(--font-heading); }
+        .footer-logo-name { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--gold); }
+        .footer-brand p { color: var(--gray); font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
+        .footer-social { display: flex; gap: 12px; }
+        .footer-social a { width: 40px; height: 40px; border: 1px solid rgba(212,160,23,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--gold); text-decoration: none; transition: all 0.3s ease; }
+        .footer-social a:hover { background: var(--gold); color: var(--black); }
+        .footer-col h4 { font-family: var(--font-heading); font-size: 18px; color: var(--gold); margin-bottom: 20px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: var(--gray); text-decoration: none; font-size: 14px; transition: color 0.3s ease; }
+        .footer-col ul li a:hover { color: var(--gold); }
+        .footer-col ul li i { margin-right: 8px; color: var(--gold-dark); font-size: 12px; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 30px; border-top: 1px solid rgba(212,160,23,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .footer-bottom p { color: var(--gray); font-size: 13px; }
+        .footer-bottom .hearts { color: #e74c3c; }
+
+        /* FLOATING */
+        .floating-buttons { position: fixed; bottom: 25px; right: 25px; z-index: 9998; display: flex; flex-direction: column; gap: 12px; }
+        .float-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; box-shadow: 0 5px 20px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+        .float-btn:hover { transform: scale(1.1); }
+        .float-btn.phone { background: var(--gold); color: var(--black); }
+        .float-btn.top { background: var(--black-card); color: var(--gold); border: 1px solid rgba(212,160,23,0.3); opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .float-btn.top.visible { opacity: 1; visibility: visible; }
+
+        /* ANİMASYON */
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+        .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .hero-title { font-size: 52px; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+            .gallery-grid { grid-template-columns: repeat(2,1fr); gap: 15px; }
+            .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; aspect-ratio: 2/1; }
+            .gallery-item:nth-child(10) { grid-column: span 2; grid-row: span 1; aspect-ratio: 2/1; }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 40px; }
+            .hero-subtitle { font-size: 20px; }
+            .section-title { font-size: 36px; }
+            .section { padding: 70px 15px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .hours-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .about-features { grid-template-columns: 1fr; }
+            .phones-grid { grid-template-columns: 1fr; }
+            .contact-actions { flex-direction: column; }
+            .gallery-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+            .gallery-item:nth-child(1),
+            .gallery-item:nth-child(7),
+            .gallery-item:nth-child(10),
+            .gallery-item:nth-child(15) { grid-column: span 1; grid-row: span 1; aspect-ratio: 1/1; }
+        }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 32px; }
+            .section-title { font-size: 28px; }
+            .hours-section { padding: 40px 20px; }
+            .gallery-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+    <div class="loader">
+        <div class="loader-icon"><i class="fas fa-fire"></i></div>
+        <div class="loader-text">Mevlana Pide</div>
+    </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#hero" class="nav-logo">
+            <div class="nav-logo-icon">M</div>
+            <div class="nav-logo-text">Mevlana <span>Pide & Lahmacun</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#hero">Ana Sayfa</a></li>
+            <li><a href="#about">Hakkımızda</a></li>
+            <li><a href="#menu">Menü</a></li>
+            <li><a href="#gallery">Galeri</a></li>
+            <li><a href="#hours">Saatler</a></li>
+            <li><a href="#contact">İletişim</a></li>
+            <li><a href="tel:05358755277" class="nav-order-btn"><i class="fas fa-phone"></i> Sipariş</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</nav>
+
+<!-- MOBİL MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" onclick="closeMenu()">Ana Sayfa</a>
+    <a href="#about" onclick="closeMenu()">Hakkımızda</a>
+    <a href="#menu" onclick="closeMenu()">Menü</a>
+    <a href="#gallery" onclick="closeMenu()">Galeri</a>
+    <a href="#hours" onclick="closeMenu()">Çalışma Saatleri</a>
+    <a href="#contact" onclick="closeMenu()">İletişim</a>
+    <a href="tel:05358755277" onclick="closeMenu()" style="color:var(--black);background:var(--gold-gradient);padding:12px 30px;border-radius:30px;">
+        <i class="fas fa-phone"></i> Sipariş Ver
+    </a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-decoration"></div>
+    <div class="hero-decoration"></div>
+    <div class="hero-decoration"></div>
+    <div class="hero-content">
+        <div class="hero-badge">☪ Tatvan'ın Lezzet Durağı ☪</div>
+        <h1 class="hero-title">Mevlana<br>Pide & Lahmacun</h1>
+        <p class="hero-subtitle">Salonu</p>
+        <p class="hero-tagline">Geleneksel lezzetler, taze malzemeler ve ustaca hazırlanan pidelerimiz ile Tatvan'da eşsiz bir tat deneyimi sunuyoruz.</p>
+        <div class="hero-buttons">
+            <a href="#menu" class="btn-primary"><i class="fas fa-utensils"></i> Menüyü İncele</a>
+            <a href="tel:05358755277" class="btn-secondary"><i class="fas fa-phone"></i> Sipariş Ver</a>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <a href="#about">Keşfet<i class="fas fa-chevron-down"></i></a>
+    </div>
+</section>
+
+<!-- DELIVERY BANNER -->
+<div class="delivery-banner">
+    <div class="delivery-banner-content">
+        <i class="fas fa-motorcycle"></i>
+        <div class="delivery-banner-text">
+            <h3>🏠 Ev ve İş Yerlerine Sipariş Vardır!</h3>
+            <p>Lezzetli pidelerimizi kapınıza kadar getiriyoruz. Hemen sipariş verin!</p>
+        </div>
+        <a href="tel:05358755277" class="btn-primary" style="font-size:12px;padding:10px 20px;">
+            <i class="fas fa-phone"></i> Ara & Sipariş Ver
+        </a>
+    </div>
+</div>
+
+<!-- HAKKIMIZDA -->
+<section class="section" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image-wrapper animate-on-scroll">
+                <div class="about-image-box">
+                    <i class="fas fa-bread-slice about-image-icon"></i>
+                </div>
+                <div class="about-experience-badge">
+                    <span class="number">★</span>
+                    <span class="text">Kalite</span>
+                </div>
+            </div>
+            <div class="about-text animate-on-scroll">
+                <div class="section-badge">Hakkımızda</div>
+                <h3>Geleneksel Lezzet,<br>Modern Hizmet</h3>
+                <p>Mevlana Pide ve Lahmacun Salonu olarak, yılların tecrübesiyle Tatvan'da hizmet vermekten gurur duyuyoruz. Taze hamurumuz, özenle seçilmiş malzemelerimiz ve odun ateşinde pişirdiğimiz eşsiz lezzetlerimizle misafirlerimize en iyisini sunuyoruz.</p>
+                <p>Tatvan'da pide, lahmacun, kuşbaşılı pide ve kıymalı ekmek denince akla gelen lezzet duraklarından biri olan salonumuzda, ev ve iş yerlerine sipariş hizmetimiz de bulunmaktadır.</p>
+                <div class="about-features">
+                    <div class="about-feature"><i class="fas fa-fire"></i><span>Odun Ateşinde</span></div>
+                    <div class="about-feature"><i class="fas fa-leaf"></i><span>Taze Malzeme</span></div>
+                    <div class="about-feature"><i class="fas fa-truck"></i><span>Gel-Al & Paket</span></div>
+                    <div class="about-feature"><i class="fas fa-heart"></i><span>Sevgiyle Yapılır</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MENÜ -->
+<section class="section" id="menu">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <div class="section-badge">Lezzetlerimiz</div>
+            <h2 class="section-title">Menümüz</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <!-- PİDE -->
+        <div class="menu-category animate-on-scroll">
+            <div class="menu-category-header">
+                <div class="menu-category-icon"><i class="fas fa-bread-slice"></i></div>
+                <div>
+                    <h3 class="menu-category-title">Pidelerimiz</h3>
+                    <p class="menu-category-subtitle">Odun ateşinde, taze hamurla hazırlanır</p>
+                </div>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kuşbaşılı Pide</h4><span class="menu-item-icon">🥩</span></div><p class="menu-item-desc">Taze kuşbaşı etle hazırlanan geleneksel pide</p><span class="menu-item-tag">Popüler</span></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kuşbaşılı Kaşarlı Pide</h4><span class="menu-item-icon">🧀</span></div><p class="menu-item-desc">Kuşbaşı et ve bol kaşar peyniri ile</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kuşbaşılı Karışık Pide</h4><span class="menu-item-icon">🥩</span></div><p class="menu-item-desc">Kuşbaşı et, sebzeler ve özel malzemeler ile</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kuşbaşılı Özel Pide</h4><span class="menu-item-icon">⭐</span></div><p class="menu-item-desc">Ustanın özel tarifi ile hazırlanan kuşbaşılı pide</p><span class="menu-item-tag">Özel</span></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kaşarlı Pide</h4><span class="menu-item-icon">🧀</span></div><p class="menu-item-desc">Bol kaşar peyniri ile hazırlanan pide</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kaşarlı Yumurtalı Pide</h4><span class="menu-item-icon">🥚</span></div><p class="menu-item-desc">Kaşar peyniri ve yumurta ile</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kıymalı Karışık Pide</h4><span class="menu-item-icon">🥩</span></div><p class="menu-item-desc">Kıyma ve karışık malzemeler ile hazırlanan pide</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kıymalı Ekmek</h4><span class="menu-item-icon">🫓</span></div><p class="menu-item-desc">Geleneksel kıymalı ekmek</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kıymalı Kaşarlı Ekmek</h4><span class="menu-item-icon">🧀</span></div><p class="menu-item-desc">Kıyma ve kaşar peyniri ile ekmek</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kıymalı Yumurtalı Ekmek</h4><span class="menu-item-icon">🥚</span></div><p class="menu-item-desc">Kıyma ve yumurta ile hazırlanan ekmek</p></div>
+            </div>
+        </div>
+
+        <!-- SPESİYAL -->
+        <div class="menu-category animate-on-scroll">
+            <div class="menu-category-header">
+                <div class="menu-category-icon"><i class="fas fa-star"></i></div>
+                <div>
+                    <h3 class="menu-category-title">Spesiyal</h3>
+                    <p class="menu-category-subtitle">Ustanın özel tarifleri</p>
+                </div>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Özel Spesiyal</h4><span class="menu-item-icon">👨‍🍳</span></div><p class="menu-item-desc">Ustanın özel tarifi ile hazırlanan spesiyal pide</p><span class="menu-item-tag">Chef Önerisi</span></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Spesiyal Karışık</h4><span class="menu-item-icon">⭐</span></div><p class="menu-item-desc">Zengin karışık malzeme ile spesiyal pide</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Spesiyal Kaşarlı</h4><span class="menu-item-icon">🧀</span></div><p class="menu-item-desc">Bol kaşar peynirli spesiyal pide</p></div>
+            </div>
+        </div>
+
+        <!-- LAHMACUN -->
+        <div class="menu-category animate-on-scroll">
+            <div class="menu-category-header">
+                <div class="menu-category-icon"><i class="fas fa-pizza-slice"></i></div>
+                <div>
+                    <h3 class="menu-category-title">Lahmacun</h3>
+                    <p class="menu-category-subtitle">İnce hamur, bol malzeme</p>
+                </div>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Lahmacun</h4><span class="menu-item-icon">🫓</span></div><p class="menu-item-desc">Geleneksel ince hamurlu, kıymalı lahmacun</p><span class="menu-item-tag">Klasik</span></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kaşarlı Lahmacun</h4><span class="menu-item-icon">🧀</span></div><p class="menu-item-desc">Üzerine bol kaşar peyniri eklenmiş lahmacun</p></div>
+                <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Özel Lahmacun</h4><span class="menu-item-icon">⭐</span></div><p class="menu-item-desc">Ustanın özel harç tarifiyle hazırlanan lahmacun</p><span class="menu-item-tag">Özel</span></div>
+            </div>
+        </div>
+
+        <!-- İÇECEKLER -->
+        <div class="menu-category animate-on-scroll">
+            <div class="menu-category-header">
+                <div class="menu-category-icon"><i class="fas fa-glass-water"></i></div>
+                <div>
+                    <h3 class="menu-category-title">İçecekler</h3>
+                    <p class="menu-category-subtitle">Soğuk ve sıcak içecek çeşitlerimiz</p>
+                </div>
+            </div>
+            <div class="drinks-subcategory">
+                <h4 class="drinks-subcategory-title">Kola & Fanta</h4>
+                <div class="menu-grid">
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kola 2.5L</h4><span class="menu-item-icon">🥤</span></div><p class="menu-item-desc">2.5 Litrelik aile boyu Coca-Cola</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kola 1L</h4><span class="menu-item-icon">🥤</span></div><p class="menu-item-desc">1 Litrelik Coca-Cola</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kola Şişe</h4><span class="menu-item-icon">🍾</span></div><p class="menu-item-desc">Cam şişe Coca-Cola</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kola Kutu</h4><span class="menu-item-icon">🥫</span></div><p class="menu-item-desc">330ml kutu Coca-Cola</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Fanta 2.5L</h4><span class="menu-item-icon">🍊</span></div><p class="menu-item-desc">2.5 Litrelik aile boyu Fanta</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Fanta 1L</h4><span class="menu-item-icon">🍊</span></div><p class="menu-item-desc">1 Litrelik Fanta</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Fanta Şişe</h4><span class="menu-item-icon">🍾</span></div><p class="menu-item-desc">Cam şişe Fanta</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Fanta Kutu</h4><span class="menu-item-icon">🥫</span></div><p class="menu-item-desc">330ml kutu Fanta</p></div>
+                </div>
+            </div>
+            <div class="drinks-subcategory">
+                <h4 class="drinks-subcategory-title">Diğer İçecekler</h4>
+                <div class="menu-grid">
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Şalgam</h4><span class="menu-item-icon">🥤</span></div><p class="menu-item-desc">Acılı veya acısız şalgam suyu</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Yayık Ayran</h4><span class="menu-item-icon">🥛</span></div><p class="menu-item-desc">Geleneksel yayık ayran</p><span class="menu-item-tag">Tavsiye</span></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Kapalı Ayran</h4><span class="menu-item-icon">🥛</span></div><p class="menu-item-desc">Hazır kapalı ayran</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Çay</h4><span class="menu-item-icon">🍵</span></div><p class="menu-item-desc">Demli Türk çayı</p></div>
+                    <div class="menu-item"><div class="menu-item-header"><h4 class="menu-item-name">Su</h4><span class="menu-item-icon">💧</span></div><p class="menu-item-desc">0.5L su</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALERİ -->
+<section class="section" id="gallery">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <div class="section-badge">📸 Fotoğraf Albümü</div>
+            <h2 class="section-title">Kısa Kareler</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="gallery-grid animate-on-scroll">
+            <div class="gallery-item" onclick="openLightbox(0)"><img src="images/galeri1.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(1)"><img src="images/galeri2.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(2)"><img src="images/galeri3.jpg" alt="Mevlana Lahmacun Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(3)"><img src="images/galeri4.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(4)"><img src="images/galeri5.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(5)"><img src="images/galeri6.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(6)"><img src="images/galeri7.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(7)"><img src="images/galeri8.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(8)"><img src="images/galeri9.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(9)"><img src="images/galeri10.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(10)"><img src="images/galeri11.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(11)"><img src="images/galeri12.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(12)"><img src="images/galeri13.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(13)"><img src="images/galeri14.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(14)"><img src="images/galeri15.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(15)"><img src="images/galeri16.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(16)"><img src="images/galeri17.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+            <div class="gallery-item" onclick="openLightbox(17)"><img src="images/galeri18.jpg" alt="Mevlana Pide Tatvan" loading="lazy"><div class="gallery-overlay"><div class="gallery-overlay-content"><i class="fas fa-search-plus"></i><span>Büyüt</span></div></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></div>
+    <div class="lightbox-nav lightbox-prev" onclick="changeLightbox(-1)"><i class="fas fa-chevron-left"></i></div>
+    <img src="" alt="Galeri" class="lightbox-img" id="lightboxImg">
+    <div class="lightbox-nav lightbox-next" onclick="changeLightbox(1)"><i class="fas fa-chevron-right"></i></div>
+    <div class="lightbox-counter" id="lightboxCounter">1 / 18</div>
+</div>
+
+<!-- ÇALIŞMA SAATLERİ -->
+<section class="section" id="hours">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <div class="section-badge">Ne Zaman Gelmeliyim?</div>
+            <h2 class="section-title">Çalışma Saatleri</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="hours-section animate-on-scroll">
+            <div class="hours-icon"><i class="fas fa-clock"></i></div>
+            <h3 class="hours-title">Her Gün Açığız!</h3>
+            <div class="hours-grid">
+                <div class="hours-day"><p class="day">Açılış</p><p class="time">09:00</p></div>
+                <div class="hours-day"><p class="day">Kapanış</p><p class="time">22:00</p></div>
+            </div>
+            <div id="statusIndicator"></div>
+        </div>
+    </div>
+</section>
+
+<!-- İLETİŞİM -->
+<section class="section" id="contact">
+    <div class="container">
+        <div class="section-header animate-on-scroll">
+            <div class="section-badge">Bize Ulaşın</div>
+            <h2 class="section-title">İletişim</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info animate-on-scroll">
+
+                <!-- ADRES -->
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-card-content">
+                        <h4>Adresimiz</h4>
+                        <p>Sahil, Ofis Cd.<br>13200 Tatvan / Bitlis</p>
+                    </div>
+                </div>
+
+                <!-- ===== 3 TELEFON KARTI ===== -->
+                <div class="phones-grid">
+
+                    <!-- RESTAURANT -->
+                    <div class="phone-card">
+                        <div class="phone-card-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <p class="phone-card-role">İşletme</p>
+                        <p class="phone-card-name">Restaurant</p>
+                        <a href="tel:05358755277" class="phone-card-number">
+                            <i class="fas fa-phone"></i>
+                            0535 875 52 77
+                        </a>
+                    </div>
+
+                    <!-- SEDAT USTA -->
+                    <div class="phone-card">
+                        <div class="phone-card-icon">
+                            <i class="fas fa-user-chef" style="font-size:20px;"></i>
+                        </div>
+                        <p class="phone-card-role">Usta</p>
+                        <p class="phone-card-name">Sedat Usta</p>
+                        <a href="tel:05387622295" class="phone-card-number">
+                            <i class="fas fa-phone"></i>
+                            0538 762 22 95
+                        </a>
+                    </div>
+
+                    <!-- HARUN USTA -->
+                    <div class="phone-card">
+                        <div class="phone-card-icon">
+                            <i class="fas fa-hat-chef" style="font-size:20px;"></i>
+                        </div>
+                        <p class="phone-card-role">Usta</p>
+                        <p class="phone-card-name">Harun Usta</p>
+                        <a href="tel:05364975518" class="phone-card-number">
+                            <i class="fas fa-phone"></i>
+                            0536 497 55 18
+                        </a>
+                    </div>
+
+                </div>
+                <!-- ===== TELEFON KARTI SON ===== -->
+
+                <!-- INSTAGRAM -->
+                <div class="contact-card">
+                    <div class="contact-card-icon"><i class="fab fa-instagram"></i></div>
+                    <div class="contact-card-content">
+                        <h4>Instagram</h4>
+                        <p><a href="https://www.instagram.com/mevlanapidelahmacun.13" target="_blank" rel="noopener">@mevlanapidelahmacun.13</a></p>
+                    </div>
+                </div>
+
+                <!-- BUTONLAR -->
+                <div class="contact-actions">
+                    <a href="tel:05358755277" class="action-btn call"><i class="fas fa-phone"></i> Restaurant</a>
+                    <a href="tel:05387622295" class="action-btn call2"><i class="fas fa-phone"></i> Sedat Usta</a>
+                    <a href="tel:05364975518" class="action-btn call3"><i class="fas fa-phone"></i> Harun Usta</a>
+                    <a href="https://www.instagram.com/mevlanapidelahmacun.13" target="_blank" rel="noopener" class="action-btn instagram"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=38.4965,42.2832&travelmode=driving" target="_blank" rel="noopener" class="action-btn directions"><i class="fas fa-directions"></i> Yol Tarifi</a>
+                </div>
+
+            </div>
+
+            <!-- HARİTA -->
+            <div class="contact-map animate-on-scroll">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3074.5!2d42.2832!3d38.4965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sSahil%2C+Ofis+Cd.+13200+Tatvan%2FBitlis!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <div class="footer-logo">
+                <div class="footer-logo-circle">M</div>
+                <span class="footer-logo-name">Mevlana Pide & Lahmacun</span>
+            </div>
+            <p>Tatvan'ın en lezzetli pide ve lahmacun salonu. Taze malzemeler, odun ateşi ve yılların tecrübesiyle hazırlanan eşsiz lezzetler. Ev ve iş yerlerine sipariş hizmetimiz mevcuttur.</p>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/mevlanapidelahmacun.13" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="tel:05358755277" aria-label="Restaurant"><i class="fas fa-phone"></i></a>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=38.4965,42.2832&travelmode=driving" target="_blank" rel="noopener" aria-label="Harita"><i class="fas fa-map-marker-alt"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Hızlı Linkler</h4>
+            <ul>
+                <li><a href="#hero"><i class="fas fa-chevron-right"></i> Ana Sayfa</a></li>
+                <li><a href="#about"><i class="fas fa-chevron-right"></i> Hakkımızda</a></li>
+                <li><a href="#menu"><i class="fas fa-chevron-right"></i> Menü</a></li>
+                <li><a href="#gallery"><i class="fas fa-chevron-right"></i> Galeri</a></li>
+                <li><a href="#hours"><i class="fas fa-chevron-right"></i> Çalışma Saatleri</a></li>
+                <li><a href="#contact"><i class="fas fa-chevron-right"></i> İletişim</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>İletişim</h4>
+            <ul>
+                <li><a href="tel:05358755277"><i class="fas fa-phone"></i> Restaurant: 0535 875 52 77</a></li>
+                <li><a href="tel:05387622295"><i class="fas fa-phone"></i> Sedat Usta: 0538 762 22 95</a></li>
+                <li><a href="tel:05364975518"><i class="fas fa-phone"></i> Harun Usta: 0536 497 55 18</a></li>
+                <li><a href="https://www.instagram.com/mevlanapidelahmacun.13" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Instagram</a></li>
+                <li><a href="#contact"><i class="fas fa-map-marker-alt"></i> Tatvan / Bitlis</a></li>
+                <li><a href="#hours"><i class="fas fa-clock"></i> 09:00 - 22:00</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Mevlana Pide & Lahmacun Salonu. Tüm hakları saklıdır.</p>
+        <p>Tatvan / Bitlis ile <span class="hearts">❤</span> yapıldı</p>
+    </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="floating-buttons">
+    <a href="#hero" class="float-btn top" id="backToTop" aria-label="Yukarı Git"><i class="fas fa-chevron-up"></i></a>
+    <a href="tel:05358755277" class="float-btn phone" aria-label="Sipariş Ver"><i class="fas fa-phone"></i></a>
+</div>
+
+<script>
+    // PRELOADER
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.getElementById('preloader').classList.add('hidden');
+        }, 1500);
+    });
+
+    // NAVBAR & BACK TO TOP
+    const navbar = document.getElementById('navbar');
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+        backToTop.classList.toggle('visible', window.scrollY > 500);
+    });
+
+    // HAMBURGER
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+    });
+    function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // SCROLL ANİMASYON
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('animated'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.animate-on-scroll').forEach(function(el) { observer.observe(el); });
+
+    // ÇALIŞMA SAATİ DURUMU
+    function updateStatus() {
+        const now = new Date();
+        const cur = now.getHours() * 60 + now.getMinutes();
+        const el = document.getElementById('statusIndicator');
+        if (cur >= 540 && cur < 1320) {
+            const rem = 1320 - cur;
+            el.innerHTML = '<div class="hours-status open"><span class="dot"></span> Şu An Açığız! (Kapanışa ' + Math.floor(rem/60) + ' saat ' + (rem%60) + ' dk)</div>';
+        } else {
+            el.innerHTML = '<div class="hours-status closed"><span class="dot"></span> Şu An Kapalıyız — Sabah 09:00\'da Açılıyoruz</div>';
+        }
+    }
+    updateStatus();
+    setInterval(updateStatus, 60000);
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            const t = document.querySelector(this.getAttribute('href'));
+            if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    // LIGHTBOX
+    const imgs = [];
+    for (let i = 1; i <= 18; i++) imgs.push('images/galeri' + i + '.jpg');
+    let curIdx = 0;
+
+    function openLightbox(i) {
+        curIdx = i;
+        const lb = document.getElementById('lightbox');
+        document.getElementById('lightboxImg').src = imgs[i];
+        document.getElementById('lightboxCounter').textContent = (i+1) + ' / ' + imgs.length;
+        lb.style.display = 'flex';
+        setTimeout(function() { lb.classList.add('active'); }, 10);
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        const lb = document.getElementById('lightbox');
+        lb.classList.remove('active');
+        setTimeout(function() { lb.style.display = 'none'; }, 400);
+        document.body.style.overflow = '';
+    }
+    function changeLightbox(dir) {
+        curIdx = (curIdx + dir + imgs.length) % imgs.length;
+        const img = document.getElementById('lightboxImg');
+        img.style.animation = 'none';
+        img.offsetHeight;
+        img.style.animation = 'lightboxZoom 0.3s ease';
+        img.src = imgs[curIdx];
+        document.getElementById('lightboxCounter').textContent = (curIdx+1) + ' / ' + imgs.length;
+    }
+    document.addEventListener('keydown', function(e) {
+        if (!document.getElementById('lightbox').classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') changeLightbox(-1);
+        if (e.key === 'ArrowRight') changeLightbox(1);
+    });
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        if (e.target === this) closeLightbox();
+    });
+
+    // MOBİL SWIPE
+    let tx = 0;
+    document.getElementById('lightbox').addEventListener('touchstart', function(e) { tx = e.changedTouches[0].screenX; });
+    document.getElementById('lightbox').addEventListener('touchend', function(e) {
+        const diff = tx - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) changeLightbox(diff > 0 ? 1 : -1);
+    });
+</script>
+</body>
+</html>

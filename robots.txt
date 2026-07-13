@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mevlana-pide-tatvan.netlify.app/sitemap.xml
